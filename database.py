@@ -1,0 +1,73 @@
+import sqlite3
+import shutil
+import hashlib
+
+def create_table(name_of_table, columns_data):
+    # Connect zu DB
+    try:
+        conn = sqlite3.connect(f"database/{name_of_table}.db")
+        cursor = conn.cursor()
+    except Exception as e:
+        print(f"Database connection error: {e}")
+        return
+
+    # list für Zukunfte Tabelle
+    column_definitions = []
+    for column in columns_data:
+        column_name = column["name"].text()
+        column_type = column["type"].currentText()
+        column_pk = column["PRIMARY KEY"].isChecked()
+        column_nn = column["NOT NULL"].isChecked()
+
+        # Fügen name und type in column_parts
+        column_parts = [column_name, column_type]
+
+        # Fügen size für type
+        #if column_size and column_type.upper() in ["INTEGER", "FLOAT", "TEXT"]:
+         #   column_parts[-1] += f"({column_size})"
+
+        # Fügen die andere Attributen hinzu
+        if column_pk:
+            column_parts.append("PRIMARY KEY")
+        if column_nn:
+            column_parts.append("NOT NULL")
+
+        # Machen die Teilen in einer Str
+        column_definitions.append(" ".join(column_parts))
+
+    # Machen SQL-Request für Erstellt Tabelle
+    sql_query = f"""
+        CREATE TABLE IF NOT EXISTS {name_of_table} (
+            {", ".join(column_definitions)}
+        )
+    """
+    print(f"SQL Query: {sql_query}") # Für console
+
+    # SQL-Request erledigen
+    try:
+        cursor.execute(sql_query)
+        conn.commit()
+        print(f"Table '{name_of_table}' created successfully.")
+    except Exception as e:
+        print(f"Error executing SQL: {e}")
+    finally:
+        conn.close()
+
+
+def control_data(name, password_he):
+    conn = sqlite3.connect("v1_dababase/data_users.db")
+    cursor = conn.cursor()
+
+    hash_object = hashlib.sha256()
+    hash_object.update(str(password_he).encode('utf-8'))
+    hashed_password = hash_object.hexdigest()
+
+    query = "SELECT * FROM datausers WHERE name = ? AND password_hash = ?"
+    cursor.execute(query, (name, hashed_password))
+    result = cursor.fetchone()
+    conn.close()
+
+    if result:
+        return True  # if date from user is correct
+    else:
+        return False
