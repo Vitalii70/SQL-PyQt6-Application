@@ -1,11 +1,8 @@
-# PyQt6:
-from PyQt6.QtCore import QSize, Qt
-from PyQt6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QStackedWidget, QPushButton, QLabel, \
-    QApplication, QGridLayout, QTextEdit, QCheckBox, QLineEdit, QStackedLayout, QComboBox, QSpinBox, QSpacerItem, \
-    QSizePolicy, QMessageBox
-from PyQt6.QtGui import QIcon
+from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
+                             QCheckBox, QLineEdit, QComboBox, QSpacerItem, QSizePolicy, QMessageBox)
 
-# Extra liblary
+# Extra library
 from database import create_table
 
 
@@ -15,129 +12,121 @@ class ScreenCreateTable(QWidget):
         self.stacked_windows = stacked_windows
 
         self.columns_data = []
-        self.column_count = 0
+        self.column_count = 1
 
-        self.parentLayout = QVBoxLayout()
+        self.init_ui()
 
-        self.name_of_table_layout = QHBoxLayout()
+    def init_ui(self):
+        self.main_layout = QVBoxLayout()
+        self.table_name_layout = QHBoxLayout()
         self.buttons_layout = QHBoxLayout()
         self.columns_layout = QVBoxLayout()
 
-        # LineEdit "enter table name"
-        self.line_text = QLineEdit()
-        self.line_text.setPlaceholderText("Enter table name")
-        self.line_text.setFixedSize(275, 60)
-        self.name_of_table_layout.addWidget(self.line_text, alignment=Qt.AlignmentFlag.AlignLeft)
+        self.table_name_input = QLineEdit()
+        self.table_name_input.setPlaceholderText("Enter table name")
+        self.table_name_input.setFixedSize(275, 60)
+        self.table_name_layout.addWidget(self.table_name_input, alignment=Qt.AlignmentFlag.AlignLeft)
 
-        # Das, um dann weiter die columns auszulesen
-        self.column_count = 1
         self.add_column()
 
-        # Plazieren Knöpfen runter
+        self.btn_add_column = self.create_button("Add Column", self.add_column)
+        self.btn_delete_column = self.create_button("Delete Column", self.delete_column)
+        self.btn_save_table = self.create_button("Save", self.saving_table)
+
+        self.buttons_layout.addWidget(self.btn_add_column)
+        self.buttons_layout.addWidget(self.btn_delete_column)
+        self.buttons_layout.addWidget(self.btn_save_table, alignment=Qt.AlignmentFlag.AlignRight)
+        self.buttons_layout.setSpacing(40)
+
         spacer = QSpacerItem(0, 0, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
-        # Button add_column
-        self.button_add_spalte = QPushButton("Add Column")
-        self.button_add_spalte.setMinimumSize(125, 70)
-        self.button_add_spalte.clicked.connect(self.add_column)
-        self.buttons_layout.addWidget(self.button_add_spalte)
+        self.main_layout.addLayout(self.table_name_layout)
+        self.main_layout.addLayout(self.columns_layout)
+        self.main_layout.addItem(spacer)
+        self.main_layout.addLayout(self.buttons_layout)
 
-        # Button del_column
-        self.button_delete_spalte = QPushButton("Delete Column")
-        self.button_delete_spalte.setMinimumSize(125, 70)
-        self.button_delete_spalte.clicked.connect(self.delete_column)
-        self.buttons_layout.addWidget(self.button_delete_spalte)
+        self.setLayout(self.main_layout)
 
-        # Button save
-        self.button_save_table = QPushButton("Save")
-        self.button_save_table.setMinimumSize(125, 70)
-        self.button_save_table.pressed.connect(self.saving_table)
-        self.buttons_layout.addWidget(self.button_save_table, alignment=Qt.AlignmentFlag.AlignRight)
-
-        self.buttons_layout.setSpacing(40)
-        self.buttons_layout.setContentsMargins(0, 0, 0, 0)
-
-        # Die Knöpfen usw. fügen in hauot Layout hinzu
-        self.parentLayout.addLayout(self.name_of_table_layout)
-        self.parentLayout.addLayout(self.columns_layout)
-        self.parentLayout.addItem(spacer)
-        self.parentLayout.addLayout(self.buttons_layout)
-
-        # haupt widget table fügen Layout mit anderen Layouts hinzu
-        self.setLayout(self.parentLayout)
-
+    def create_button(self, text, func):
+        button = QPushButton(text)
+        button.setMinimumSize(125, 70)
+        button.clicked.connect(func)
+        return button
 
     def show_error_message(self, title, message):
-        msg = QMessageBox()
-        msg.setIcon(QMessageBox.Icon.Critical)
-        msg.setWindowTitle(title)
-        msg.setText(message)
-        msg.setStandardButtons(QMessageBox.StandardButton.Ok)
-        msg.exec()
+        QMessageBox.critical(self, title, message, QMessageBox.StandardButton.Ok)
 
     def saving_table(self):
-        name = self.line_text.text()
-        columns = self.columns_data
-        if len(name) == 0:
-            self.show_error_message("Error name of table.", "Table name cannot be empty.")
+        name = self.table_name_input.text()
+        if not name:
+            self.show_error_message("Error", "Table name cannot be empty.")
             return
 
-        for column in columns:
+        columns = []
+        for column in self.columns_data:
             column_name = column["name"].text()
             column_type = column["type"].currentText()
             column_pk = column["PRIMARY KEY"].isChecked()
             column_nn = column["NOT NULL"].isChecked()
 
-            if len(column_name) == 0:
-                self.show_error_message("Error name of column.", "Column name cannot be empty.")
+            if not column_name:
+                self.show_error_message("Error", "Column name cannot be empty.")
                 return
+
+            columns.append({
+                "name": column_name,
+                "type": column_type,
+                "PRIMARY KEY": column_pk,
+                "NOT NULL": column_nn
+            })
 
         create_table(name, columns)
 
     def add_column(self):
-        row = self.column_count
-        second_columns = QHBoxLayout()
-
-        spalte_line = QLineEdit()
-        spalte_line.setPlaceholderText(f"Enter column name {self.column_count}")
-        second_columns.addWidget(spalte_line)
-
-        combobox_type = QComboBox()
-        combobox_type.addItems(["INTEGER", "FLOAT", "TEXT"])
-        second_columns.addWidget(combobox_type)
-
-        check_pk = QCheckBox("PK")
-        check_nn = QCheckBox("NN")
-        second_columns.addWidget(check_pk)
-        second_columns.addWidget(check_nn)
-
-        self.columns_data.append({
-            "name": spalte_line,
-            "type": combobox_type,
-            "PRIMARY KEY": check_pk,
-            "NOT NULL": check_nn
-        })
-
-        self.columns_layout.addLayout(second_columns)
+        column_layout = self.create_column_widgets()
+        self.columns_layout.addLayout(column_layout)
         self.column_count += 1
 
     def delete_column(self):
         if self.column_count > 2:
-            # Kriegen layout lezte column
-            last_column_layout = self.columns_layout.itemAt(self.column_count - 2)  # Index lezter column
+            column_layout = self.columns_layout.itemAt(self.column_count - 2)
 
-            if last_column_layout:
-                # löschen widget aus layout
-                for i in range(last_column_layout.count()):
-                    item = last_column_layout.itemAt(i)
-                    widget = item.widget()
+            if column_layout:
+                for i in range(column_layout.count()):
+                    widget = column_layout.itemAt(i).widget()
                     if widget:
-                        widget.deleteLater()  # deleteLater() - позволяет удалить сылку на виджет
+                        widget.deleteLater()
 
-                # Löschen layout aus colums_layout
-                self.columns_layout.removeItem(
-                    last_column_layout)  # removeItem() - исключает виджет из родительского слоя
+                self.columns_layout.removeItem(column_layout)
                 self.columns_data.pop()
                 self.column_count -= 1
         else:
-            self.show_error_message("Error delete column.", "Cannot delete the last column.")
+            self.show_error_message(
+                "Error deleting column.",
+                "Cannot delete the last column."
+            )
+
+    def create_column_widgets(self):
+        column_layout = QHBoxLayout()
+
+        column_name = QLineEdit()
+        column_name.setPlaceholderText(f"Enter column name {self.column_count}")
+        column_layout.addWidget(column_name)
+
+        column_type = QComboBox()
+        column_type.addItems(["INTEGER", "FLOAT", "TEXT"])
+        column_layout.addWidget(column_type)
+
+        column_pk = QCheckBox("PK")
+        column_nn = QCheckBox("NN")
+        column_layout.addWidget(column_pk)
+        column_layout.addWidget(column_nn)
+
+        self.columns_data.append({
+            "name": column_name,
+            "type": column_type,
+            "PRIMARY KEY": column_pk,
+            "NOT NULL": column_nn
+        })
+
+        return column_layout

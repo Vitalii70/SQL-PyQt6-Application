@@ -26,27 +26,33 @@ class LoginScreen(QWidget):
         self.button_3_layout = QVBoxLayout()
         self.button_dont_acc_layout = QHBoxLayout()
 
-        label_maintext = QLabel("SQL & PyQt")
-        label_maintext.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        label_maintext.setStyleSheet("font-size: 44px; "
-                                     "font-weight: bold; "
-                                     "color: black;")
-        self.text_layout.addWidget(label_maintext,
+        # Text Name of program
+        label_main_text = QLabel("SQL & PyQt")
+        label_main_text.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        label_main_text.setStyleSheet(
+            "font-size: 44px; "
+            "font-weight: bold; "
+            "color: black;")
+        self.text_layout.addWidget(label_main_text,
                                    alignment=Qt.AlignmentFlag.AlignCenter)
 
+        # lineedit for name
         self.name_lineedit = QLineEdit()
         self.name_lineedit.setPlaceholderText("Username")
         self.name_lineedit.setFixedSize(250, 40)
         self.button_1_layout.addWidget(self.name_lineedit,
                                        alignment=Qt.AlignmentFlag.AlignCenter)
 
+        # lineedit for password
         self.password_lineedit = QLineEdit()
         self.password_lineedit.setPlaceholderText("Password")
+        # to hide the password when entering
         self.password_lineedit.setEchoMode(QLineEdit.EchoMode.Password)
         self.password_lineedit.setFixedSize(250, 40)
         self.button_1_layout.addWidget(self.password_lineedit,
                                        alignment=Qt.AlignmentFlag.AlignCenter)
 
+        # for better arrangement
         self.button_1_layout.setSpacing(0)
         self.button_1_layout.setContentsMargins(0, 0, 0, 0)
 

@@ -1,5 +1,4 @@
 import sqlite3
-import shutil
 import hashlib
 
 def create_table(name_of_table, columns_data):

@@ -41,9 +41,11 @@ def exception_hook(exc_type, exc_value, exc_traceback):
 # Startpoint and settings
 if __name__ == "__main__":
     sys.excepthook = exception_hook
+
     app = QApplication(sys.argv)
     app.setWindowIcon(QIcon("ideas/icon_sql.png"))
+
     window = MainWindow()
     window.show()
-    app.exec()
-    sys.exit(app.exec_())
+
+    sys.exit(app.exec())
