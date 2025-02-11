@@ -64,14 +64,19 @@ class LoginScreen(QWidget):
             "font: bold 14px; "
             "min-width: 10em; "
             "padding: 6px;"
+            "transition: 0.3s; "
+            """
+            QPushButton:pressed {
+                background-color: darkgray; /* Цвет при нажатии */
+                color: black;
+            }
+            """
         )
-
+        self.button_3.setAutoDefault(True)
+        self.button_3.setDefault(True)
         self.button_3.setFixedSize(150, 50)
         self.button_3.clicked.connect(self.login_continue)
-        self.button_3_layout.addWidget(
-            self.button_3,
-            alignment=Qt.AlignmentFlag.AlignCenter
-        )
+        self.button_3_layout.addWidget(self.button_3, alignment=Qt.AlignmentFlag.AlignCenter)
 
         self.button_dont_acc = QPushButton("Create an account")
         self.button_dont_acc.setMinimumSize(175, 75)
