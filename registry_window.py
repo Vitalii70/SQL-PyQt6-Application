@@ -119,7 +119,7 @@ class RegistryScreen(QWidget):
         main_layout.addStretch()
         main_layout.addWidget(self.container, alignment=Qt.AlignmentFlag.AlignCenter)
         main_layout.addStretch()
-        self.setLayout(main_layout)        self.setLayout(main_layout)
+        self.setLayout(main_layout)
     def error_about_not_exist_option(self):
         self.show_error_message("Soon...", "This option don't work right now.")
 
