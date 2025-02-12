@@ -1,8 +1,7 @@
 # PyQt
-from PyQt6.QtCore import Qt, QLine
+from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QHBoxLayout, QLineEdit, QPushButton, QSpacerItem, QSizePolicy
 
-# TODO Button settings better
 
 class RegistryScreen(QWidget):
     def __init__(self, stacked_windows):
@@ -72,6 +71,12 @@ class RegistryScreen(QWidget):
         self.button_continue.setStyleSheet(
             "background-color: #E4E6EE; color: gray; border-radius: 10px; "
             "font-size: 15px; font-weight: bold; min-height: 30px;")
+        self.button_continue.pressed.connect(lambda: self.button_continue.setStyleSheet(
+            "background-color: #D0D3DD; color: gray; border-radius: 10px; font-size: 15px; font-weight: bold; min-height: 30px;"
+        ))
+        self.button_continue.released.connect(lambda: self.button_continue.setStyleSheet(
+            "background-color: #E4E6EE; color: gray; border-radius: 10px; font-size: 15px; font-weight: bold; min-height: 30px;"
+        ))
         self.button_continue.setFixedSize(200, 40)
         self.vertical_layout.addWidget(self.button_continue, alignment=Qt.AlignmentFlag.AlignCenter)
 
@@ -82,12 +87,24 @@ class RegistryScreen(QWidget):
         self.button_already_account = QPushButton("I have already an account")
         self.button_already_account.setStyleSheet(
             "background-color: transparent; color: white; font-size: 12px;")
-        self.extra_buttons_layout.addWidget(self.button_already_account)
+        self.button_already_account.pressed.connect(lambda: self.button_already_account.setStyleSheet(
+            "background-color: transparent; color: gray; font-size: 12px;"
+        ))
+        self.button_already_account.released.connect(lambda: self.button_already_account.setStyleSheet(
+            "background-color: transparent; color: white; font-size: 12px;"
+        ))
+        self.extra_buttons_layout.addWidget(self.button_already_account, alignment=Qt.AlignmentFlag.AlignLeft)
 
         # Button "I forgot password"
         self.button_forgot_password = QPushButton("I forgot password")
         self.button_forgot_password.setStyleSheet(
             "background-color: transparent; color: white; font-size: 12px;")
+        self.button_forgot_password.pressed.connect(lambda: self.button_forgot_password.setStyleSheet(
+            "background-color: transparent; color: gray; font-size: 12px;"
+        ))
+        self.button_forgot_password.released.connect(lambda: self.button_forgot_password.setStyleSheet(
+            "background-color: transparent; color: white; font-size: 12px;"
+        ))
         self.extra_buttons_layout.addWidget(self.button_forgot_password, alignment=Qt.AlignmentFlag.AlignRight)
 
         # Add buttons in main layout
