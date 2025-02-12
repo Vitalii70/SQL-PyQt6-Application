@@ -1,6 +1,7 @@
 # PyQt
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QHBoxLayout, QLineEdit, QPushButton, QSpacerItem, QSizePolicy
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QHBoxLayout, QLineEdit, QPushButton, QSpacerItem, QSizePolicy, \
+    QMessageBox
 
 
 class RegistryScreen(QWidget):
@@ -93,6 +94,8 @@ class RegistryScreen(QWidget):
         self.button_already_account.released.connect(lambda: self.button_already_account.setStyleSheet(
             "background-color: transparent; color: white; font-size: 12px;"
         ))
+        # If acc already exist than login_screen
+        self.button_already_account.clicked.connect(lambda: self.stacked_windows.setCurrentIndex(0))
         self.extra_buttons_layout.addWidget(self.button_already_account, alignment=Qt.AlignmentFlag.AlignLeft)
 
         # Button "I forgot password"
@@ -105,6 +108,8 @@ class RegistryScreen(QWidget):
         self.button_forgot_password.released.connect(lambda: self.button_forgot_password.setStyleSheet(
             "background-color: transparent; color: white; font-size: 12px;"
         ))
+        # This option will in future than now is only this
+        self.button_forgot_password.clicked.connect(self.error_about_not_exist_option)
         self.extra_buttons_layout.addWidget(self.button_forgot_password, alignment=Qt.AlignmentFlag.AlignRight)
 
         # Add buttons in main layout
@@ -114,4 +119,16 @@ class RegistryScreen(QWidget):
         main_layout.addStretch()
         main_layout.addWidget(self.container, alignment=Qt.AlignmentFlag.AlignCenter)
         main_layout.addStretch()
-        self.setLayout(main_layout)
+        self.setLayout(main_layout)        self.setLayout(main_layout)
+    def error_about_not_exist_option(self):
+        self.show_error_message("Soon...", "This option don't work right now.")
+
+    # Function for error message
+    @staticmethod
+    def show_error_message(title, message):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Icon.Critical)
+        msg.setWindowTitle(title)
+        msg.setText(message)
+        msg.setStandardButtons(QMessageBox.StandardButton.Ok)
+        msg.exec()
