@@ -3,10 +3,10 @@ from PyQt6.QtWidgets import QMainWindow, QStackedWidget, QApplication
 from PyQt6.QtGui import QIcon
 
 # Other windows/screens
-from login_window import LoginScreen
-from registry_window import RegistryScreen
-from menu_main_first_screen import MenuFirstScreen
-from screen_create_table import ScreenCreateTable
+from screens_pyqt6.login_window import LoginScreen
+from screens_pyqt6.registry_window import RegistryScreen
+from screens_pyqt6.menu_main_first_screen import MenuFirstScreen
+from screens_pyqt6.screen_create_table import ScreenCreateTable
 
 # Extra liblary
 import sys
