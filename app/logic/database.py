@@ -25,10 +25,6 @@ def create_table(name_of_table, columns_data):
         # Fügen name und type in column_parts
         column_parts = [column_name, column_type]
 
-        # Fügen size für type
-        #if column_size and column_type.upper() in ["INTEGER", "FLOAT", "TEXT"]:
-         #   column_parts[-1] += f"({column_size})"
-
         # Fügen die andere Attributen hinzu
         if column_pk:
             column_parts.append("PRIMARY KEY")
