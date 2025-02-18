@@ -5,7 +5,7 @@ import re
 def create_table(name_of_table, columns_data):
     # Connect zu DB
     try:
-        conn = sqlite3.connect(f"database/{name_of_table}.db")
+        conn = sqlite3.connect(f"database_db/{name_of_table}.db")
         cursor = conn.cursor()
     except Exception as e:
         print(f"Database connection error: {e}")
@@ -14,10 +14,13 @@ def create_table(name_of_table, columns_data):
     # list für Zukunfte Tabelle
     column_definitions = []
     for column in columns_data:
-        column_name = column["name"].text()
-        column_type = column["type"].currentText()
-        column_pk = column["PRIMARY KEY"].isChecked()
-        column_nn = column["NOT NULL"].isChecked()
+        if isinstance(column["name"], str):
+            column_name = column["name"]
+        else:
+            column_name = column["name"].text()
+        column_type = column["type"]
+        column_pk = column["PRIMARY KEY"]
+        column_nn = column["NOT NULL"]
 
         # Fügen name und type in column_parts
         column_parts = [column_name, column_type]
@@ -55,7 +58,7 @@ def create_table(name_of_table, columns_data):
 
 
 def control_data(name, password_he):
-    conn = sqlite3.connect("../../v1_dababase/data_users.db")
+    conn = sqlite3.connect("v1_dababase/data_users.db")
     cursor = conn.cursor()
 
     hash_object = hashlib.sha256()
@@ -82,7 +85,7 @@ def check_of_users(username):
         return False
 
     # Look if this name exist in database
-    conn = sqlite3.connect("../../v1_dababase/data_users.db")
+    conn = sqlite3.connect("v1_dababase/data_users.db")
     cursor = conn.cursor()
 
     query = "SELECT name FROM datausers WHERE name = ?"
