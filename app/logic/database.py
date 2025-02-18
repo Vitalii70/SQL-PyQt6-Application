@@ -55,7 +55,7 @@ def create_table(name_of_table, columns_data):
 
 
 def control_data(name, password_he):
-    conn = sqlite3.connect("v1_dababase/data_users.db")
+    conn = sqlite3.connect("../../v1_dababase/data_users.db")
     cursor = conn.cursor()
 
     hash_object = hashlib.sha256()
@@ -82,7 +82,7 @@ def check_of_users(username):
         return False
 
     # Look if this name exist in database
-    conn = sqlite3.connect("v1_dababase/data_users.db")
+    conn = sqlite3.connect("../../v1_dababase/data_users.db")
     cursor = conn.cursor()
 
     query = "SELECT name FROM datausers WHERE name = ?"

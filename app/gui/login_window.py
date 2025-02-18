@@ -4,7 +4,7 @@ from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, \
     QPushButton, QLabel, QLineEdit, QMessageBox
 
 # Extra library
-from database import control_data
+from app.logic.database import control_data
 
 
 class LoginScreen(QWidget):

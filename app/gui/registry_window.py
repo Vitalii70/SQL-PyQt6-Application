@@ -4,7 +4,8 @@ from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QHBoxLayout, QLineEdit
     QMessageBox
 
 # Extra library
-from database import check_of_users, check_of_password
+from app.logic.database import check_of_users
+
 
 class RegistryScreen(QWidget):
     def __init__(self, stacked_windows):
