@@ -1,6 +1,7 @@
 import sqlite3
 import hashlib
 import re
+import os
 
 import config
 
@@ -56,7 +57,9 @@ def create_table(name_of_table, columns_data):
 
 
 def control_data(name, password_he):
-    conn = sqlite3.connect(config.DATABASE_LINK["db_main"])
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    db_path = os.path.join(base_dir, "../..", "v1_database/data_users.db")
+    conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
 
     hash_object = hashlib.sha256()
@@ -83,7 +86,9 @@ def check_of_users(username):
         return False
 
     # Look if this name exist in database
-    conn = sqlite3.connect(config.DATABASE_LINK["db_main"])
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    db_path = os.path.join(base_dir, "../..", "v1_database/data_users.db")
+    conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
 
     query = "SELECT name FROM datausers WHERE name = ?"

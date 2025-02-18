@@ -8,9 +8,8 @@ from app.gui.registry_window import RegistryScreen
 from app.gui.menu_main_first_screen import MenuFirstScreen
 from app.gui.screen_create_table import ScreenCreateTable
 
-# Extra liblary
+# Extra library
 import sys
-
 
 class MainWindow(QMainWindow):
     def __init__(self):
