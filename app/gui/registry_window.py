@@ -3,8 +3,8 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QHBoxLayout, QLineEdit, QPushButton, QSpacerItem, QSizePolicy, \
     QMessageBox
 
-# Extra library
-from app.logic.database import check_of_users
+# Check password and username
+from ..logic.user_manager import datamanager
 
 
 class RegistryScreen(QWidget):
@@ -130,16 +130,11 @@ class RegistryScreen(QWidget):
         password_1 = self.password_line_edit_1.text()
         password_2 = self.password_line_edit_2.text()
 
-        if not check_of_users(username):
+        if not datamanager.check_name(username):
             self.show_error_message("Wrong Name!", "Try again to write your name.")
         else:
             if password_1 != password_2:
                 self.show_error_message("Wrong password's", "Password's must be same.")
-            else:
-                # TODO
-                if len(password_1) < 0:
-                    pass
-
 
     def create_new_acc_in_database(self):
         pass
