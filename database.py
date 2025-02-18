@@ -1,5 +1,6 @@
 import sqlite3
 import hashlib
+import re
 
 def create_table(name_of_table, columns_data):
     # Connect zu DB
@@ -70,3 +71,42 @@ def control_data(name, password_he):
         return True  # if date from user is correct
     else:
         return False
+
+def check_of_users(username):
+    regex = "^[a-zA-Zа]+$"
+    pattern = re.compile(regex)
+
+    control_right_name = pattern.search(username) is not None
+    if not control_right_name:
+        # If Name has something wrong
+        return False
+
+    # Look if this name exist in database
+    conn = sqlite3.connect("v1_dababase/data_users.db")
+    cursor = conn.cursor()
+
+    query = "SELECT name FROM datausers WHERE name = ?"
+    cursor.execute(query, (username,))
+    result = cursor.fetchone()
+
+    conn.close()
+
+    if result:
+        return True
+    else:
+        return False
+
+def check_of_password(password):
+    regex = "^[a-zA-Zа]+$"
+    pattern = re.compile(regex)
+
+    control_right_name = pattern.search(password) is not None
+    if not control_right_name:
+        # If Name has something wrong
+        return "F"
+    return "T"
+
+
+
+def create_new_account(username, password):
+    pass
