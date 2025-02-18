@@ -76,43 +76,5 @@ def control_data(name, password_he):
     else:
         return False
 
-def check_of_users(username):
-    regex = "^[a-zA-Zа]+$"
-    pattern = re.compile(regex)
-
-    control_right_name = pattern.search(username) is not None
-    if not control_right_name:
-        # If Name has something wrong
-        return False
-
-    # Look if this name exist in database
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    db_path = os.path.join(base_dir, "../..", "v1_database/data_users.db")
-    conn = sqlite3.connect(db_path)
-    cursor = conn.cursor()
-
-    query = "SELECT name FROM datausers WHERE name = ?"
-    cursor.execute(query, (username,))
-    result = cursor.fetchone()
-
-    conn.close()
-
-    if result:
-        return True
-    else:
-        return False
-
-def check_of_password(password):
-    regex = "^[a-zA-Zа]+$"
-    pattern = re.compile(regex)
-
-    control_right_name = pattern.search(password) is not None
-    if not control_right_name:
-        # If Name has something wrong
-        return "F"
-    return "T"
-
-
-
 def create_new_account(username, password):
     pass
