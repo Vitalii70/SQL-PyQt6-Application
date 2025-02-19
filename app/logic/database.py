@@ -1,9 +1,6 @@
 import sqlite3
 import hashlib
-import re
 import os
-
-import config
 
 def create_table(name_of_table, columns_data):
     # Connect zu DB
@@ -58,10 +55,14 @@ def create_table(name_of_table, columns_data):
 
 def control_data(name, password_he):
     """Checking the correctness of the password and name"""
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    db_path = os.path.join(base_dir, "../..", "v1_database/data_users.db")
-    conn = sqlite3.connect(db_path)
-    cursor = conn.cursor()
+    try:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        db_path = os.path.join(base_dir, "../..", "v1_database/data_users.db")
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
+    except Exception as e:
+        print(f"Database connection error: {e}")
+        return
 
     hash_object = hashlib.sha256()
     hash_object.update(str(password_he).encode('utf-8'))
@@ -77,5 +78,26 @@ def control_data(name, password_he):
     else:
         return False
 
+# Todo Refactoring
 def create_new_account(username, password):
-    pass
+    """Create a new user in db"""
+    try:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        db_path = os.path.join(base_dir, "../..", "v1_database/data_users.db")
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
+
+        hash_object = hashlib.sha256()
+        hash_object.update(password.encode('utf-8'))
+        password_hash = hash_object.hexdigest()
+
+        cursor.execute("INSERT INTO datausers (name, password_hash) VALUES (?, ?)",
+                       (username, password_hash))
+
+        conn.commit()
+        conn.close()
+
+    except Exception as e:
+        print(f"Database connection error: {e}")
+        return
+

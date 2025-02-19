@@ -18,7 +18,7 @@ class MainWindow(QMainWindow):
 
         # Add widget in stacked widget
         self.stacked_windows.addWidget(LoginScreen(self, self.stacked_windows))
-        self.stacked_windows.addWidget(RegistryScreen(self.stacked_windows))
+        self.stacked_windows.addWidget(RegistryScreen(self, self.stacked_windows))
         self.stacked_windows.addWidget(MenuFirstScreen(self.stacked_windows))
         self.stacked_windows.addWidget(ScreenCreateTable(self.stacked_windows))
 
