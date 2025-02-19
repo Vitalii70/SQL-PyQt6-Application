@@ -45,7 +45,7 @@ def create_table(name_of_table, columns_data):
     """
     print(f"SQL Query: {sql_query}") # Für console
 
-    # SQL-Request erledigen
+    # SQL-Request
     try:
         cursor.execute(sql_query)
         conn.commit()
@@ -57,6 +57,7 @@ def create_table(name_of_table, columns_data):
 
 
 def control_data(name, password_he):
+    """Checking the correctness of the password and name"""
     base_dir = os.path.dirname(os.path.abspath(__file__))
     db_path = os.path.join(base_dir, "../..", "v1_database/data_users.db")
     conn = sqlite3.connect(db_path)
