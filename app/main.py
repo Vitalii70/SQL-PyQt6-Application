@@ -42,7 +42,7 @@ if __name__ == "__main__":
     sys.excepthook = exception_hook
 
     app = QApplication(sys.argv)
-    app.setWindowIcon(QIcon("app/icons_and_idea/icon_sql.png"))
+    app.setWindowIcon(QIcon("app/resources/icon_sql.png"))
 
     window = MainWindow()
     window.show()
