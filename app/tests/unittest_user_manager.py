@@ -34,4 +34,18 @@ class TestNamesOptions(unittest.TestCase):
         self.assertTrue(datamanager.check_name("Andrei"))
 
 
+# TODO Refactoring
+class TestPasswordsOptions(unittest.TestCase):
 
+    def test_cyrillic_etc(self):
+        self.assertFalse(datamanager.check_password("Aqawfas234э", "Aqawfas234э"))
+        self.assertFalse(datamanager.check_password("AqawЙfas234", "AqawЙfas234"))
+        self.assertFalse(datamanager.check_password("Aqawррfas234э", "Aqawррfas234э"))
+        self.assertTrue(datamanager.check_password("Passw0rd!", "Passw0rd!"))
+        self.assertTrue(datamanager.check_password("Aq_sr0r!$", "Aq_sr0r!$"))
+
+    def test_long_password(self):
+        self.assertFalse(datamanager.check_password("Aw23§", "Aw23§"))
+        self.assertFalse(datamanager.check_password("Asd3ed_", "Asd3ed_"))
+        self.assertTrue(datamanager.check_password("Passw0rd!", "Passw0rd!"))
+        self.assertTrue(datamanager.check_password("Aq_sr0r!$", "Aq_sr0r!$"))

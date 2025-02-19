@@ -13,7 +13,7 @@ class DataManager:
     def check_name(username: str) -> bool:
         """Checking if the name has been entered correctly"""
         # name must be 6-32 varchar
-        if 6 > len(username) or len(username) > 32:
+        if 4 > len(username) or len(username) > 32:
             return False
 
         # Look only latin symbols, without numbers and others symbols
@@ -44,5 +44,16 @@ class DataManager:
         finally:
             conn.close()
 
+    @staticmethod
+    def check_password(password1, password2):
+        if password1 != password2:
+            return False
+
+        right_form = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?\":{}|<>_$])[A-Za-z\d!@#$%^&*(),.?\":{}|<>_$]{8,}$"
+        # Look only latin symbols, without numbers and others symbols
+        if not re.fullmatch(right_form, password1):
+            return False
+
+        return True
 
 datamanager = DataManager()
