@@ -11,7 +11,7 @@ from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, \
 
 # Extra library
 from app.database_logic.database import control_data
-
+from ..config import ALL_LINKS
 
 class LoginScreen(QWidget):
     def __init__(self, main_window, stacked_windows):
@@ -63,21 +63,7 @@ class LoginScreen(QWidget):
         self.button_1_layout.setContentsMargins(0, 0, 0, 0)
 
         self.button_3 = QPushButton("Continue >")
-        self.button_3.setStyleSheet(
-            "background-color: gray; "
-            "color: white; "
-            "border-radius: 10px; "
-            "font: bold 14px; "
-            "min-width: 10em; "
-            "padding: 6px;"
-            "transition: 0.3s; "
-            """
-            QPushButton:pressed {
-                background-color: darkgray; /* Цвет при нажатии */
-                color: black;
-            }
-            """
-        )
+        self.button_3.setStyleSheet("button_continue") # QSS
         self.button_3.setAutoDefault(True)
         self.button_3.setDefault(True)
         self.button_3.setFixedSize(150, 50)

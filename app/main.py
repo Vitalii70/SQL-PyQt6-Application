@@ -53,6 +53,7 @@ if __name__ == "__main__":
 
     app = QApplication(sys.argv)
     app.setWindowIcon(QIcon("app/resources/icon_sql.png"))
+    app.setWindowIcon(QIcon(ALL_LINKS["icon_for_program"]))
 
     window = MainWindow()
     window.show()
