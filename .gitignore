@@ -101,12 +101,14 @@ ipython_config.py
 #   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
 #poetry.lock
 
-# Игнорировать все файлы в папке data/
-data/*
+ordner_for_ignore/*
+!ordner_for_ignore/
 
-# Но не игнорировать саму папку data
-!data/
+database_for_dbs/*
+!database_for_dbs/
 
+app/database_accounts/data_users.db
+!app/database_accounts/data_users.db/
 
 # pdm
 #   Similar to Pipfile.lock, it is generally recommended to include pdm.lock in version control.
