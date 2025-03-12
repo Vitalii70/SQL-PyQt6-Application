@@ -23,7 +23,7 @@ class TestNamesOptions(unittest.TestCase):
 
     def test_other_symbols_in_name(self):
         self.assertFalse(datamanager.check_name("Vitalii_"))
-        self.assertTrue(datamanager.check_name("Andrei"))
+        self.assertTrue(datamanager.check_name("Andreii"))
         self.assertFalse(datamanager.check_name("!_"))
         self.assertFalse(datamanager.check_name("Name!Ö"))
         self.assertFalse(datamanager.check_name("N____"))
@@ -31,10 +31,9 @@ class TestNamesOptions(unittest.TestCase):
     def test_long_name(self):
         self.assertFalse(datamanager.check_name("And" * 15))
         self.assertFalse(datamanager.check_name("Bf"))
-        self.assertTrue(datamanager.check_name("Andrei"))
+        self.assertTrue(datamanager.check_name("Andreii"))
 
 
-# TODO Refactoring
 class TestPasswordsOptions(unittest.TestCase):
 
     def test_cyrillic_etc(self):

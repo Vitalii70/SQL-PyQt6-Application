@@ -46,6 +46,9 @@ class DataManager:
 
     @staticmethod
     def check_password(password1, password2):
+        if password1 is None or password2 is None:
+            return False
+
         if password1 != password2:
             return False
 
