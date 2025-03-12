@@ -1,7 +1,7 @@
 """unittest for user_manager"""
 
 import unittest
-from ..logic.user_manager import datamanager
+from app.database_logic.user_manager import datamanager
 
 class TestNamesOptions(unittest.TestCase):
     def test_cyrillic(self):

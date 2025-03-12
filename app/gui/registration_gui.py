@@ -4,8 +4,8 @@ from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QHBoxLayout, QLineEdit
     QMessageBox
 
 # Check password and username
-from ..logic.user_manager import datamanager
-from ..logic.database import create_new_account
+from ..database_logic.user_manager import datamanager
+from ..database_logic.database import create_new_account
 
 
 class RegistryScreen(QWidget):

@@ -57,7 +57,7 @@ def control_data(name, password_he):
     """Checking the correctness of the password and name"""
     try:
         base_dir = os.path.dirname(os.path.abspath(__file__))
-        db_path = os.path.join(base_dir, "../..", "v1_database/data_users.db")
+        db_path = os.path.join(base_dir, "..", "database_accounts/data_users.db")
         conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
     except Exception as e:
@@ -83,7 +83,7 @@ def create_new_account(username, password):
     """Create a new user in db"""
     try:
         base_dir = os.path.dirname(os.path.abspath(__file__))
-        db_path = os.path.join(base_dir, "../..", "v1_database/data_users.db")
+        db_path = os.path.join(base_dir, "..", "database_accounts/data_users.db")
         conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
 
