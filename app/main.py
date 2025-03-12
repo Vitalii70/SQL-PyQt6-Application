@@ -3,14 +3,13 @@ from PyQt6.QtWidgets import QMainWindow, QStackedWidget, QApplication
 from PyQt6.QtGui import QIcon
 
 # Other windows/screens
-from screens_pyqt6.login_window import LoginScreen
-from screens_pyqt6.registry_window import RegistryScreen
-from screens_pyqt6.menu_main_first_screen import MenuFirstScreen
-from screens_pyqt6.screen_create_table import ScreenCreateTable
+from app.gui.login_gui import LoginScreen
+from app.gui.registration_gui import RegistryScreen
+from app.gui.menu_gui import MenuFirstScreen
+from app.gui.create_table_gui import ScreenCreateTable
 
-# Extra liblary
+# Extra library
 import sys
-
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -19,7 +18,7 @@ class MainWindow(QMainWindow):
 
         # Add widget in stacked widget
         self.stacked_windows.addWidget(LoginScreen(self, self.stacked_windows))
-        self.stacked_windows.addWidget(RegistryScreen(self.stacked_windows))
+        self.stacked_windows.addWidget(RegistryScreen(self, self.stacked_windows))
         self.stacked_windows.addWidget(MenuFirstScreen(self.stacked_windows))
         self.stacked_windows.addWidget(ScreenCreateTable(self.stacked_windows))
 
@@ -43,7 +42,7 @@ if __name__ == "__main__":
     sys.excepthook = exception_hook
 
     app = QApplication(sys.argv)
-    app.setWindowIcon(QIcon("ideas/icon_sql.png"))
+    app.setWindowIcon(QIcon("app/resources/icon_sql.png"))
 
     window = MainWindow()
     window.show()

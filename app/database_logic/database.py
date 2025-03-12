@@ -1,11 +1,11 @@
 import sqlite3
 import hashlib
-import re
+import os
 
 def create_table(name_of_table, columns_data):
     # Connect zu DB
     try:
-        conn = sqlite3.connect(f"database/{name_of_table}.db")
+        conn = sqlite3.connect(f"database_for_dbs/{name_of_table}.db")
         cursor = conn.cursor()
     except Exception as e:
         print(f"Database connection error: {e}")
@@ -14,17 +14,16 @@ def create_table(name_of_table, columns_data):
     # list für Zukunfte Tabelle
     column_definitions = []
     for column in columns_data:
-        column_name = column["name"].text()
-        column_type = column["type"].currentText()
-        column_pk = column["PRIMARY KEY"].isChecked()
-        column_nn = column["NOT NULL"].isChecked()
+        if isinstance(column["name"], str):
+            column_name = column["name"]
+        else:
+            column_name = column["name"].text()
+        column_type = column["type"]
+        column_pk = column["PRIMARY KEY"]
+        column_nn = column["NOT NULL"]
 
         # Fügen name und type in column_parts
         column_parts = [column_name, column_type]
-
-        # Fügen size für type
-        #if column_size and column_type.upper() in ["INTEGER", "FLOAT", "TEXT"]:
-         #   column_parts[-1] += f"({column_size})"
 
         # Fügen die andere Attributen hinzu
         if column_pk:
@@ -43,7 +42,7 @@ def create_table(name_of_table, columns_data):
     """
     print(f"SQL Query: {sql_query}") # Für console
 
-    # SQL-Request erledigen
+    # SQL-Request
     try:
         cursor.execute(sql_query)
         conn.commit()
@@ -55,8 +54,15 @@ def create_table(name_of_table, columns_data):
 
 
 def control_data(name, password_he):
-    conn = sqlite3.connect("v1_dababase/data_users.db")
-    cursor = conn.cursor()
+    """Checking the correctness of the password and name"""
+    try:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        db_path = os.path.join(base_dir, "..", "database_accounts/data_users.db")
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
+    except Exception as e:
+        print(f"Database connection error: {e}")
+        return
 
     hash_object = hashlib.sha256()
     hash_object.update(str(password_he).encode('utf-8'))
@@ -72,41 +78,25 @@ def control_data(name, password_he):
     else:
         return False
 
-def check_of_users(username):
-    regex = "^[a-zA-Zа]+$"
-    pattern = re.compile(regex)
-
-    control_right_name = pattern.search(username) is not None
-    if not control_right_name:
-        # If Name has something wrong
-        return False
-
-    # Look if this name exist in database
-    conn = sqlite3.connect("v1_dababase/data_users.db")
-    cursor = conn.cursor()
-
-    query = "SELECT name FROM datausers WHERE name = ?"
-    cursor.execute(query, (username,))
-    result = cursor.fetchone()
-
-    conn.close()
-
-    if result:
-        return True
-    else:
-        return False
-
-def check_of_password(password):
-    regex = "^[a-zA-Zа]+$"
-    pattern = re.compile(regex)
-
-    control_right_name = pattern.search(password) is not None
-    if not control_right_name:
-        # If Name has something wrong
-        return "F"
-    return "T"
-
-
-
 def create_new_account(username, password):
-    pass
+    """Create a new user in db"""
+    try:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        db_path = os.path.join(base_dir, "..", "database_accounts/data_users.db")
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
+
+        hash_object = hashlib.sha256()
+        hash_object.update(password.encode('utf-8'))
+        password_hash = hash_object.hexdigest()
+
+        cursor.execute("INSERT INTO datausers (name, password_hash) VALUES (?, ?)",
+                       (username, password_hash))
+
+        conn.commit()
+        conn.close()
+
+    except Exception as e:
+        print(f"Database connection error: {e}")
+        return
+

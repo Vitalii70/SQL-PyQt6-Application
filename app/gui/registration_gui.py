@@ -3,12 +3,15 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QHBoxLayout, QLineEdit, QPushButton, QSpacerItem, QSizePolicy, \
     QMessageBox
 
-# Extra library
-from database import check_of_users, check_of_password
+# Check password and username
+from ..database_logic.user_manager import datamanager
+from ..database_logic.database import create_new_account
+
 
 class RegistryScreen(QWidget):
-    def __init__(self, stacked_windows):
+    def __init__(self, main_window, stacked_windows):
         super().__init__()
+        self.main_window = main_window
         self.stacked_windows = stacked_windows
 
         # main layout for screen
@@ -80,7 +83,7 @@ class RegistryScreen(QWidget):
         self.button_continue.released.connect(lambda: self.button_continue.setStyleSheet(
             "background-color: #E4E6EE; color: gray; border-radius: 10px; font-size: 15px; font-weight: bold; min-height: 30px;"
         ))
-        self.button_continue.clicked.connect(self.control_data_source_user)
+        self.button_continue.clicked.connect(self.control_data_source_user_and_create_acc)
         self.button_continue.setFixedSize(200, 40)
         self.vertical_layout.addWidget(self.button_continue, alignment=Qt.AlignmentFlag.AlignCenter)
 
@@ -124,24 +127,20 @@ class RegistryScreen(QWidget):
         main_layout.addStretch()
         self.setLayout(main_layout)
 
-    def control_data_source_user(self):
+    def control_data_source_user_and_create_acc(self):
         username = self.name_lineedit.text()
         password_1 = self.password_line_edit_1.text()
         password_2 = self.password_line_edit_2.text()
 
-        if not check_of_users(username):
+        if not datamanager.check_name(username):
             self.show_error_message("Wrong Name!", "Try again to write your name.")
         else:
-            if password_1 != password_2:
-                self.show_error_message("Wrong password's", "Password's must be same.")
+            if not datamanager.check_password(password_1, password_2):
+                self.show_error_message("Wrong password!", "Try again to write your password.")
             else:
-                # TODO
-                if len(password_1) < 0:
-                    pass
-
-
-    def create_new_acc_in_database(self):
-        pass
+                create_new_account(username, password_1)
+                self.main_window.setWindowTitle(f"SQL & PyQt > {username}")
+                self.stacked_windows.setCurrentIndex(2)
 
     def error_about_not_exist_option(self):
         self.show_error_message("Soon...", "This option don't work right now.")

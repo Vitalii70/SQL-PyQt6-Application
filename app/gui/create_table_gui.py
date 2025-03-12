@@ -3,7 +3,7 @@ from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
                              QCheckBox, QLineEdit, QComboBox, QSpacerItem, QSizePolicy, QMessageBox)
 
 # Extra library
-from database import create_table
+from app.database_logic.database import create_table
 
 
 class ScreenCreateTable(QWidget):

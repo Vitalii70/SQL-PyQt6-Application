@@ -1,0 +1,4 @@
+"""Config"""
+
+DATABASE_LINK = {
+}
