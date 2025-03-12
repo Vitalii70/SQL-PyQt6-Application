@@ -104,9 +104,6 @@ ipython_config.py
 ordner_for_ignore/*
 !ordner_for_ignore/
 
-database_for_dbs/*
-!database_for_dbs/
-
 app/database_accounts/data_users.db
 !app/database_accounts/data_users.db/
 
