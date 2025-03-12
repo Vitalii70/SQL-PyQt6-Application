@@ -17,6 +17,11 @@ class LoginScreen(QWidget):
     def __init__(self, main_window, stacked_windows):
         super().__init__()
 
+        # QSS for buttons etc.
+        with open(ALL_LINKS["file_style_login_gui"], "r") as file:
+            qss = file.read()
+            self.setStyleSheet(qss)
+
         # Default settings
         self.main_window = main_window
         self.stacked_windows = stacked_windows
@@ -35,10 +40,7 @@ class LoginScreen(QWidget):
         # Text Name of program
         label_main_text = QLabel("SQL & PyQt")
         label_main_text.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        label_main_text.setStyleSheet(
-            "font-size: 44px; "
-            "font-weight: bold; "
-            "color: black;")
+        label_main_text.setObjectName("mainTextLabel") # QSS
         self.text_layout.addWidget(label_main_text,
                                    alignment=Qt.AlignmentFlag.AlignCenter)
 
