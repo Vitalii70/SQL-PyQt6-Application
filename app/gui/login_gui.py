@@ -1,4 +1,10 @@
-# PyQt6:
+"""
+Module for handling user login functionality.
+
+This module provides the logic for user authentication, including input validation and checking credentials against the database.
+"""
+
+# PyQt6
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, \
     QPushButton, QLabel, QLineEdit, QMessageBox

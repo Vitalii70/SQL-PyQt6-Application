@@ -1,4 +1,6 @@
-"""unittest for user_manager"""
+"""
+unittest for user_manager
+"""
 
 import unittest
 from app.database_logic.user_manager import datamanager

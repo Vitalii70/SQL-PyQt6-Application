@@ -1,3 +1,9 @@
+"""
+Module for handling user registration functionality.
+
+This module handles the process of user registration, including form validation and saving new user data to the database.
+"""
+
 # PyQt
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QHBoxLayout, QLineEdit, QPushButton, QSpacerItem, QSizePolicy, \

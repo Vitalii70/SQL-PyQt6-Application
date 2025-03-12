@@ -1,3 +1,10 @@
+"""
+Module for creating tables in the database.
+
+This module provides functionality to create tables in the database based on user input or predefined schema.
+"""
+
+# PyQt6
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
                              QCheckBox, QLineEdit, QComboBox, QSpacerItem, QSizePolicy, QMessageBox)

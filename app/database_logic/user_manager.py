@@ -1,4 +1,8 @@
-"""Module for correct spelling username and password"""
+"""
+Module for validating username and password input.
+
+This module handles the validation of user credentials, ensuring that the username and password meet required format and security criteria before proceeding with authentication.
+"""
 
 import sqlite3
 import re
