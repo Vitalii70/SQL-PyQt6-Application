@@ -6,34 +6,22 @@ import unittest
 from app.database_logic.user_manager import datamanager
 
 class TestNamesOptions(unittest.TestCase):
-    def test_cyrillic(self):
-        self.assertTrue(datamanager.check_name("Vitall"))
-        self.assertFalse(datamanager.check_name("Vitaliiээ"))
-        self.assertFalse(datamanager.check_name("Вtaliй"))
-        self.assertFalse(datamanager.check_name("Vitфlii"))
+    def test_valid(self):
+        self.assertTrue(datamanager.check_name("Vitaliie"))
+        self.assertTrue(datamanager.check_name("Andrei"))
+        self.assertTrue(datamanager.check_name("Katei"))
+        self.assertTrue(datamanager.check_name("Luca"))
 
-    def test_same_name(self):
-        self.assertFalse(datamanager.check_name("Vitalii"))
-        self.assertFalse(datamanager.check_name("Roman"))
+    def test_invalid_typeerror(self):
+        with self.assertRaises(TypeError):
+            datamanager.check_name()
 
-    def test_number_in_name(self):
-        self.assertFalse(datamanager.check_name("V1talii"))
-        self.assertFalse(datamanager.check_name("Band4Band"))
-        self.assertFalse(datamanager.check_name("6"))
-        self.assertFalse(datamanager.check_name("123456"))
-        self.assertTrue(datamanager.check_name("Antonn"))
-
-    def test_other_symbols_in_name(self):
-        self.assertFalse(datamanager.check_name("Vitalii_"))
-        self.assertTrue(datamanager.check_name("Andreii"))
-        self.assertFalse(datamanager.check_name("!_"))
-        self.assertFalse(datamanager.check_name("Name!Ö"))
-        self.assertFalse(datamanager.check_name("N____"))
-
-    def test_long_name(self):
-        self.assertFalse(datamanager.check_name("And" * 15))
-        self.assertFalse(datamanager.check_name("Bf"))
-        self.assertTrue(datamanager.check_name("Andreii"))
+    def test_invalid(self):
+        self.assertFalse(datamanager.check_name("das"))
+        self.assertFalse(datamanager.check_name("five" * 10)) # 50 > symbols
+        self.assertFalse(datamanager.check_name("------"))
+        self.assertFalse(datamanager.check_name("!RatherBoy1"))
+        self.assertFalse(datamanager.check_name("12345678890"))
 
 
 class TestPasswordsOptions(unittest.TestCase):

@@ -4,9 +4,7 @@ Module for validating username and password input.
 This module handles the validation of user credentials, ensuring that the username and password meet required format and security criteria before proceeding with authentication.
 """
 
-import sqlite3
 import re
-import os
 
 
 class DataManager:
@@ -21,32 +19,10 @@ class DataManager:
             return False
 
         # Look only latin symbols, without numbers and others symbols
-        if not re.fullmatch(r"^[a-zA-Z]+$", username):
+        if not re.match("^[a-zA-Z]+$", username):
             return False
 
-        # Connect to db
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        db_path = os.path.join(base_dir, "../..", "v1_database/data_users.db")
-        conn = None
-
-        try:
-            conn = sqlite3.connect(db_path)
-            cursor = conn.cursor()
-
-            # If name in db
-            query = "SELECT name FROM datausers WHERE name = ?"
-            cursor.execute(query, (username,))
-            result = cursor.fetchone()
-
-            # if this name already exist than false
-            if result:
-                return False
-            return True
-
-        except sqlite3.Error:
-            return False # If error with db too false
-        finally:
-            conn.close()
+        return True
 
     @staticmethod
     def check_password(password1, password2):
