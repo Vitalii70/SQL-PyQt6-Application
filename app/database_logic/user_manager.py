@@ -1,8 +1,12 @@
-"""Module for correct spelling username and password"""
+"""
+Module for validating username and password input.
 
-import sqlite3
+This module handles the validation of user credentials,
+ensuring that the username and password meet required format
+and security criteria before proceeding with authentication.
+"""
+
 import re
-import os
 
 
 class DataManager:
@@ -13,47 +17,32 @@ class DataManager:
     def check_name(username: str) -> bool:
         """Checking if the name has been entered correctly"""
         # name must be 6-32 varchar
+        if username is None:
+            return False
+
         if 4 > len(username) or len(username) > 32:
             return False
 
         # Look only latin symbols, without numbers and others symbols
-        if not re.fullmatch(r"^[a-zA-Z]+$", username):
+        if not re.match("^[a-zA-Z]+$", username):
             return False
 
-        # Connect to db
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        db_path = os.path.join(base_dir, "../..", "v1_database/data_users.db")
-        conn = None
-
-        try:
-            conn = sqlite3.connect(db_path)
-            cursor = conn.cursor()
-
-            # If name in db
-            query = "SELECT name FROM datausers WHERE name = ?"
-            cursor.execute(query, (username,))
-            result = cursor.fetchone()
-
-            # if this name already exist than false
-            if result:
-                return False
-            return True
-
-        except sqlite3.Error:
-            return False # If error with db too false
-        finally:
-            conn.close()
+        return True
 
     @staticmethod
-    def check_password(password1, password2):
-        if password1 is None or password2 is None:
+    def check_password(password1: str, password2: str) -> bool:
+        """Checking if the password has been entered correctly"""
+        if not password1 or not password2:
             return False
 
         if password1 != password2:
             return False
 
+        # Regular expression for the password:
+        # at least one lowercase letter,one uppercase letter, one number, and one special character
         right_form = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?\":{}|<>_$])[A-Za-z\d!@#$%^&*(),.?\":{}|<>_$]{8,}$"
-        # Look only latin symbols, without numbers and others symbols
+
+        # If the password does not match the regular expression
         if not re.fullmatch(right_form, password1):
             return False
 

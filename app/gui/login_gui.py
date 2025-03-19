@@ -1,15 +1,26 @@
-# PyQt6:
+"""
+Module for handling user login functionality.
+
+This module provides the logic for user authentication, including input validation and checking credentials against the database.
+"""
+
+# PyQt6
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, \
     QPushButton, QLabel, QLineEdit, QMessageBox
 
 # Extra library
 from app.database_logic.database import control_data
-
+from ..config import ALL_LINKS
 
 class LoginScreen(QWidget):
     def __init__(self, main_window, stacked_windows):
         super().__init__()
+
+        # QSS for buttons etc.
+        with open(ALL_LINKS["file_style_login_gui"], "r") as file:
+            qss = file.read()
+            self.setStyleSheet(qss)
 
         # Default settings
         self.main_window = main_window
@@ -29,10 +40,7 @@ class LoginScreen(QWidget):
         # Text Name of program
         label_main_text = QLabel("SQL & PyQt")
         label_main_text.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        label_main_text.setStyleSheet(
-            "font-size: 44px; "
-            "font-weight: bold; "
-            "color: black;")
+        label_main_text.setObjectName("mainTextLabel") # QSS
         self.text_layout.addWidget(label_main_text,
                                    alignment=Qt.AlignmentFlag.AlignCenter)
 
@@ -57,21 +65,7 @@ class LoginScreen(QWidget):
         self.button_1_layout.setContentsMargins(0, 0, 0, 0)
 
         self.button_3 = QPushButton("Continue >")
-        self.button_3.setStyleSheet(
-            "background-color: gray; "
-            "color: white; "
-            "border-radius: 10px; "
-            "font: bold 14px; "
-            "min-width: 10em; "
-            "padding: 6px;"
-            "transition: 0.3s; "
-            """
-            QPushButton:pressed {
-                background-color: darkgray; /* Цвет при нажатии */
-                color: black;
-            }
-            """
-        )
+        self.button_3.setStyleSheet("button_continue") # QSS
         self.button_3.setAutoDefault(True)
         self.button_3.setDefault(True)
         self.button_3.setFixedSize(150, 50)

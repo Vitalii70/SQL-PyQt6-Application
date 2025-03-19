@@ -1,3 +1,9 @@
+"""
+Module for performing core database operations.
+
+This module contains the essential functionality for interacting with the database, including creating, reading, updating, and deleting (CRUD) data. It provides methods for executing SQL queries and managing database connections.
+"""
+
 import sqlite3
 import hashlib
 import os
@@ -99,4 +105,3 @@ def create_new_account(username, password):
     except Exception as e:
         print(f"Database connection error: {e}")
         return
-

@@ -1,0 +1,20 @@
+#mainTextLabel {
+    font-size: 44px;
+    font-weight: bold;
+    color: black;
+}
+
+#button_continue {
+    background-color: gray;
+    color: white;
+    border-radius: 10px;
+    font: bold 14px;
+    min-width: 10em;
+    padding: 6px;
+    transition: 0.3s;
+}
+
+#button_continue:pressed {
+    background-color: darkgray;
+    color: black;
+}

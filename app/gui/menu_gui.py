@@ -1,3 +1,11 @@
+"""
+Module for the main menu interface.
+
+This module defines the main window of the application,
+including navigation to different sections such as login,
+registration, and other features.
+"""
+
 # PyQt
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QLabel, QGridLayout

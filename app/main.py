@@ -1,3 +1,13 @@
+"""
+Module for creating a GUI with PyQt6 and working with an SQL database.
+
+This module provides a PyQt6 interface that interacts with an SQL database to execute queries and display data.
+
+Dependencies:
+- PyQt6
+- SQLite/SQLAlchemy
+"""
+
 # PyQt6
 from PyQt6.QtWidgets import QMainWindow, QStackedWidget, QApplication
 from PyQt6.QtGui import QIcon
@@ -10,6 +20,8 @@ from app.gui.create_table_gui import ScreenCreateTable
 
 # Extra library
 import sys
+from config import ALL_LINKS
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -42,7 +54,7 @@ if __name__ == "__main__":
     sys.excepthook = exception_hook
 
     app = QApplication(sys.argv)
-    app.setWindowIcon(QIcon("app/resources/icon_sql.png"))
+    app.setWindowIcon(QIcon(ALL_LINKS["icon_for_program"]))
 
     window = MainWindow()
     window.show()
