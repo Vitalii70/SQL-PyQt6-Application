@@ -11,14 +11,13 @@ from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, \
 
 # Extra library
 from app.database_logic.database import control_data
-from ..config import ALL_LINKS
 
 class LoginScreen(QWidget):
     def __init__(self, main_window, stacked_windows):
         super().__init__()
 
         # QSS for buttons etc.
-        with open(ALL_LINKS["file_style_login_gui"], "r") as file:
+        with open("C:\\reps\\SQL-PyQt6-Application\\app\\styles\\style_login_gui.qss", "r") as file:
             qss = file.read()
             self.setStyleSheet(qss)
 
