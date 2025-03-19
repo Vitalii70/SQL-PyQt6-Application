@@ -11,13 +11,15 @@ from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, \
 
 # Extra library
 from app.database_logic.database import control_data
+from ..config import QQS_LOGIN_GUI, show_error_message
+
 
 class LoginScreen(QWidget):
     def __init__(self, main_window, stacked_windows):
         super().__init__()
 
         # QSS for buttons etc.
-        with open("C:\\reps\\SQL-PyQt6-Application\\app\\styles\\style_login_gui.qss", "r") as file:
+        with open(QQS_LOGIN_GUI, "r") as file:
             qss = file.read()
             self.setStyleSheet(qss)
 
@@ -107,18 +109,8 @@ class LoginScreen(QWidget):
             self.main_window.setWindowTitle(f"SQL & PyQt > {username}")
             self.stacked_windows.setCurrentIndex(2)
         else:
-            self.show_error_message(
+            show_error_message(
                 "Incorrect date.",
                 "Try again, and make sure you write "
                 "your password and username correctly."
             )
-
-    # Function for error message
-    @staticmethod
-    def show_error_message(title, message):
-        msg = QMessageBox()
-        msg.setIcon(QMessageBox.Icon.Critical)
-        msg.setWindowTitle(title)
-        msg.setText(message)
-        msg.setStandardButtons(QMessageBox.StandardButton.Ok)
-        msg.exec()

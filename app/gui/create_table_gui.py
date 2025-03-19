@@ -11,6 +11,7 @@ from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
 
 # Extra library
 from app.database_logic.database import create_table
+from ..config import show_error_message
 
 
 class ScreenCreateTable(QWidget):
@@ -60,13 +61,11 @@ class ScreenCreateTable(QWidget):
         button.clicked.connect(func)
         return button
 
-    def show_error_message(self, title, message):
-        QMessageBox.critical(self, title, message, QMessageBox.StandardButton.Ok)
 
     def saving_table(self):
         name = self.table_name_input.text()
         if not name:
-            self.show_error_message("Error", "Table name cannot be empty.")
+            show_error_message("Error", "Table name cannot be empty.")
             return
 
         columns = []
@@ -77,7 +76,7 @@ class ScreenCreateTable(QWidget):
             column_nn = column["NOT NULL"].isChecked()
 
             if not column_name:
-                self.show_error_message("Error", "Column name cannot be empty.")
+                show_error_message("Error", "Column name cannot be empty.")
                 return
 
             columns.append({
@@ -108,7 +107,7 @@ class ScreenCreateTable(QWidget):
                 self.columns_data.pop()
                 self.column_count -= 1
         else:
-            self.show_error_message(
+            show_error_message(
                 "Error deleting column.",
                 "Cannot delete the last column."
             )

@@ -20,6 +20,7 @@ from app.gui.create_table_gui import ScreenCreateTable
 
 # Extra library
 import sys
+from config import WINDOW_ICON
 
 
 class MainWindow(QMainWindow):
@@ -53,7 +54,7 @@ if __name__ == "__main__":
     sys.excepthook = exception_hook
 
     app = QApplication(sys.argv)
-    app.setWindowIcon(QIcon("resources\\icon_sql.png"))
+    app.setWindowIcon(QIcon(WINDOW_ICON))
 
     window = MainWindow()
     window.show()

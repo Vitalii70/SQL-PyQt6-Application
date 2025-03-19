@@ -12,7 +12,7 @@ from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QHBoxLayout, QLineEdit
 # Check password and username
 from ..database_logic.user_manager import datamanager
 from ..database_logic.database import create_new_account
-
+from ..config import show_error_message
 
 class RegistryScreen(QWidget):
     def __init__(self, main_window, stacked_windows):
@@ -139,24 +139,14 @@ class RegistryScreen(QWidget):
         password_2 = self.password_line_edit_2.text()
 
         if not datamanager.check_name(username):
-            self.show_error_message("Wrong Name!", "Try again to write your name.")
+            show_error_message("Wrong Name!", "Try again to write your name.")
         else:
             if not datamanager.check_password(password_1, password_2):
-                self.show_error_message("Wrong password!", "Try again to write your password.")
+                show_error_message("Wrong password!", "Try again to write your password.")
             else:
                 create_new_account(username, password_1)
                 self.main_window.setWindowTitle(f"SQL & PyQt > {username}")
                 self.stacked_windows.setCurrentIndex(2)
 
     def error_about_not_exist_option(self):
-        self.show_error_message("Soon...", "This option don't work right now.")
-
-    # Function for error message
-    @staticmethod
-    def show_error_message(title, message):
-        msg = QMessageBox()
-        msg.setIcon(QMessageBox.Icon.Critical)
-        msg.setWindowTitle(title)
-        msg.setText(message)
-        msg.setStandardButtons(QMessageBox.StandardButton.Ok)
-        msg.exec()
+        show_error_message("Soon...", "This option don't work right now.")
