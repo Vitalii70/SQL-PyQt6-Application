@@ -1,7 +1,9 @@
 """
 Module for the main menu interface.
 
-This module defines the main window of the application, including navigation to different sections such as login, registration, and other features.
+This module defines the main window of the application,
+including navigation to different sections such as login,
+registration, and other features.
 """
 
 # PyQt
