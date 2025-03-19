@@ -7,7 +7,7 @@ import os
 
 class TestConnectToDatabase(unittest.TestCase):
     # TODO: Write here db to database to users
-    path_db = "C:\\reps\\SQL-PyQt6-Application\\app\\database_accounts\\data_users.db"
+    path_db = "C:\\reps\\SQL-PyQt6-Application\\app\\database\\data_users.db"
 
     def test_exist(self):
         self.assertTrue(os.path.exists(self.path_db))

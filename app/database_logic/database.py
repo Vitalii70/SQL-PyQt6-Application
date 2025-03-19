@@ -11,7 +11,7 @@ import os
 def create_table(name_of_table, columns_data):
     # Connect zu DB
     try:
-        conn = sqlite3.connect(f"C:\\reps\\SQL-PyQt6-Application\\created_databases\\{name_of_table}.db")
+        conn = sqlite3.connect(f"C:\\reps\\SQL-PyQt6-Application\\app\\database\\created_databases\\{name_of_table}.db")
         cursor = conn.cursor()
     except Exception as e:
         print(f"Database connection error: {e}")
@@ -63,7 +63,7 @@ def control_data(name, password_he):
     """Checking the correctness of the password and name"""
     try:
         base_dir = os.path.dirname(os.path.abspath(__file__))
-        db_path = os.path.join(base_dir, "..", "database_accounts/data_users.db")
+        db_path = os.path.join(base_dir, "..", "database/data_users.db")
         conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
     except Exception as e:
@@ -88,7 +88,7 @@ def create_new_account(username, password):
     """Create a new user in db"""
     try:
         base_dir = os.path.dirname(os.path.abspath(__file__))
-        db_path = os.path.join(base_dir, "..", "database_accounts/data_users.db")
+        db_path = os.path.join(base_dir, "..", "database/data_users.db")
         conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
 
