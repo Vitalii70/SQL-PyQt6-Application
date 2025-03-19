@@ -2,6 +2,7 @@
        
 ### An application that integrates SQL and GUI PyQt6. All together makes an application that is easier to work with to create sql tables.
 
+---
 # 📖 Table of Contents
 + About the Project
 + Installation
@@ -34,4 +35,9 @@
 # 🤝 Contributing
 ### The project is in development and I would like to find a person for better development of this application, who has a desire, the data is here:
 My GitHub: https://github.com/Vitalii70
+
+----
+###### Version: 1.0.8
+###### Last Update: 19.03.2025
+###### Update from: Vitalii70
  
