@@ -104,6 +104,9 @@ ipython_config.py
 ordner_for_ignore/*
 !ordner_for_ignore/
 
+created_databases/*
+!created_databases/
+
 # pdm
 #   Similar to Pipfile.lock, it is generally recommended to include pdm.lock in version control.
 #pdm.lock

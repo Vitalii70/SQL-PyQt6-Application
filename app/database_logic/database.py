@@ -11,7 +11,7 @@ import os
 def create_table(name_of_table, columns_data):
     # Connect zu DB
     try:
-        conn = sqlite3.connect(f"database_for_dbs/{name_of_table}.db")
+        conn = sqlite3.connect(f"C:\\reps\\SQL-PyQt6-Application\\created_databases\\{name_of_table}.db")
         cursor = conn.cursor()
     except Exception as e:
         print(f"Database connection error: {e}")
