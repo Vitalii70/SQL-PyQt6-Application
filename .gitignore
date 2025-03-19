@@ -104,9 +104,6 @@ ipython_config.py
 ordner_for_ignore/*
 !ordner_for_ignore/
 
-app/database_accounts/data_users.db
-!app/database_accounts/data_users.db/
-
 # pdm
 #   Similar to Pipfile.lock, it is generally recommended to include pdm.lock in version control.
 #pdm.lock
