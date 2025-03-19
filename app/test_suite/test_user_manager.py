@@ -25,16 +25,19 @@ class TestNamesOptions(unittest.TestCase):
 
 
 class TestPasswordsOptions(unittest.TestCase):
+    def test_valid(self):
+        self.assertTrue(datamanager.check_password("Va_123$ghtjfk", "Va_123$ghtjfk"))
+        self.assertTrue(datamanager.check_password("Va_123$ghtjf45k", "Va_123$ghtjf45k"))
 
-    def test_cyrillic_etc(self):
-        self.assertFalse(datamanager.check_password("Aqawfas234э", "Aqawfas234э"))
-        self.assertFalse(datamanager.check_password("AqawЙfas234", "AqawЙfas234"))
-        self.assertFalse(datamanager.check_password("Aqawррfas234э", "Aqawррfas234э"))
-        self.assertTrue(datamanager.check_password("Passw0rd!", "Passw0rd!"))
-        self.assertTrue(datamanager.check_password("Aq_sr0r!$", "Aq_sr0r!$"))
+    def test_invalid_typeerror(self):
+        with self.assertRaises(TypeError):
+            datamanager.check_password()
 
-    def test_long_password(self):
-        self.assertFalse(datamanager.check_password("Aw23§", "Aw23§"))
-        self.assertFalse(datamanager.check_password("Asd3ed_", "Asd3ed_"))
-        self.assertTrue(datamanager.check_password("Passw0rd!", "Passw0rd!"))
-        self.assertTrue(datamanager.check_password("Aq_sr0r!$", "Aq_sr0r!$"))
+    def test_invalid(self):
+        self.assertFalse(datamanager.check_password("Va_123$ghtjfkas", "Va_123$ghtjfk"))
+        self.assertFalse(datamanager.check_password("Va_", "Va_"))
+        self.assertFalse(datamanager.check_password("________________", "________________"))
+        self.assertFalse(datamanager.check_password("1234567890", "1234567890"))
+
+if __name__ == "__main__":
+    unittest.main()
