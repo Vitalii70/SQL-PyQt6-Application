@@ -6,13 +6,14 @@ This module handles the process of user registration, including form validation 
 
 # PyQt
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QHBoxLayout, QLineEdit, QPushButton, QSpacerItem, QSizePolicy, \
-    QMessageBox
+from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QLabel, QHBoxLayout,
+                             QLineEdit, QPushButton, QSpacerItem, QSizePolicy)
 
-# Check password and username
+# Check password, username and error_message
 from ..database_logic.user_manager import datamanager
 from ..database_logic.database import create_new_account
 from ..config import show_error_message
+
 
 class RegistryScreen(QWidget):
     def __init__(self, main_window, stacked_windows):
@@ -84,10 +85,12 @@ class RegistryScreen(QWidget):
             "background-color: #E4E6EE; color: gray; border-radius: 10px; "
             "font-size: 15px; font-weight: bold; min-height: 30px;")
         self.button_continue.pressed.connect(lambda: self.button_continue.setStyleSheet(
-            "background-color: #D0D3DD; color: gray; border-radius: 10px; font-size: 15px; font-weight: bold; min-height: 30px;"
+            "background-color: #D0D3DD; color: gray; border-radius: 10px; font-size: 15px; "
+            "font-weight: bold; min-height: 30px;"
         ))
         self.button_continue.released.connect(lambda: self.button_continue.setStyleSheet(
-            "background-color: #E4E6EE; color: gray; border-radius: 10px; font-size: 15px; font-weight: bold; min-height: 30px;"
+            "background-color: #E4E6EE; color: gray; border-radius: 10px; font-size: 15px; "
+            "font-weight: bold; min-height: 30px;"
         ))
         self.button_continue.clicked.connect(self.control_data_source_user_and_create_acc)
         self.button_continue.setFixedSize(200, 40)
@@ -133,6 +136,7 @@ class RegistryScreen(QWidget):
         main_layout.addStretch()
         self.setLayout(main_layout)
 
+    # Checking data from user if it is right, create table
     def control_data_source_user_and_create_acc(self):
         username = self.name_lineedit.text()
         password_1 = self.password_line_edit_1.text()
@@ -148,5 +152,6 @@ class RegistryScreen(QWidget):
                 self.main_window.setWindowTitle(f"SQL & PyQt > {username}")
                 self.stacked_windows.setCurrentIndex(2)
 
+    # In next update
     def error_about_not_exist_option(self):
         show_error_message("Soon...", "This option don't work right now.")
