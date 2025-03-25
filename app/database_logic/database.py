@@ -7,11 +7,12 @@ This module contains the essential functionality for interacting with the databa
 import sqlite3
 import hashlib
 import os
+from ..config import CREATED_DB_NAME, DB_PATH
 
 def create_table(name_of_table, columns_data):
     # Connect zu DB
     try:
-        conn = sqlite3.connect(f"database_for_dbs/{name_of_table}.db")
+        conn = sqlite3.connect(f"{CREATED_DB_NAME}{name_of_table}.db")
         cursor = conn.cursor()
     except Exception as e:
         print(f"Database connection error: {e}")
@@ -63,8 +64,7 @@ def control_data(name, password_he):
     """Checking the correctness of the password and name"""
     try:
         base_dir = os.path.dirname(os.path.abspath(__file__))
-        db_path = os.path.join(base_dir, "..", "database_accounts/data_users.db")
-        conn = sqlite3.connect(db_path)
+        conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
     except Exception as e:
         print(f"Database connection error: {e}")
@@ -88,8 +88,7 @@ def create_new_account(username, password):
     """Create a new user in db"""
     try:
         base_dir = os.path.dirname(os.path.abspath(__file__))
-        db_path = os.path.join(base_dir, "..", "database_accounts/data_users.db")
-        conn = sqlite3.connect(db_path)
+        conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
 
         hash_object = hashlib.sha256()

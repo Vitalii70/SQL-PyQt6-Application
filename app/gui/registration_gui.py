@@ -6,12 +6,13 @@ This module handles the process of user registration, including form validation 
 
 # PyQt
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QHBoxLayout, QLineEdit, QPushButton, QSpacerItem, QSizePolicy, \
-    QMessageBox
+from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QLabel, QHBoxLayout,
+                             QLineEdit, QPushButton, QSpacerItem, QSizePolicy)
 
-# Check password and username
+# Check password, username and error_message
 from ..database_logic.user_manager import datamanager
 from ..database_logic.database import create_new_account
+from ..config import QQS_LOGIN_GUI, show_error_message
 
 
 class RegistryScreen(QWidget):
@@ -20,13 +21,18 @@ class RegistryScreen(QWidget):
         self.main_window = main_window
         self.stacked_windows = stacked_windows
 
+        # QSS for buttons etc.
+        with open(QQS_LOGIN_GUI, "r") as file:
+            qss = file.read()
+            self.setStyleSheet(qss)
+
         # main layout for screen
         main_layout = QVBoxLayout(self)
 
         # Container for button etc.
         self.container = QWidget(self)
         self.container.setFixedSize(350, 450)
-        self.container.setStyleSheet("background-color: gray; border-radius: 15px;")
+        self.container.setObjectName("back_front_container")
 
         # layout for things in container
         self.vertical_layout = QVBoxLayout(self.container)
@@ -34,7 +40,7 @@ class RegistryScreen(QWidget):
         # main text in this screen
         label_main_text = QLabel("SQL & PyQt6")
         label_main_text.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        label_main_text.setStyleSheet("font-size: 35px; font-weight: bold; color: white;")
+        label_main_text.setObjectName("label_main_text")
         self.vertical_layout.addWidget(label_main_text, alignment=Qt.AlignmentFlag.AlignCenter)
 
         # Create a vertical layout for "Username", "Password", and "Confirm Password"
@@ -43,9 +49,7 @@ class RegistryScreen(QWidget):
         # LineEdit "Username"
         self.name_lineedit = QLineEdit()
         self.name_lineedit.setPlaceholderText("Username")
-        self.name_lineedit.setStyleSheet(
-            "background-color: darkgray; color: white; border-radius: 10px; "
-            "font-size: 16px; font-weight: bold; min-height: 40px;")
+        self.name_lineedit.setObjectName("lineedit_password_name")
         self.name_lineedit.setFixedSize(250, 40)
         username_password_layout.addWidget(self.name_lineedit, alignment=Qt.AlignmentFlag.AlignCenter)
 
@@ -54,9 +58,7 @@ class RegistryScreen(QWidget):
         # LineEdit "Password"
         self.password_line_edit_1 = QLineEdit()
         self.password_line_edit_1.setPlaceholderText("Password")
-        self.password_line_edit_1.setStyleSheet(
-            "background-color: darkgray; color: white; border-radius: 10px; "
-            "font-size: 16px; font-weight: bold; min-height: 40px;")
+        self.password_line_edit_1.setObjectName("lineedit_password_name")
         self.password_line_edit_1.setEchoMode(QLineEdit.EchoMode.Password)
         self.password_line_edit_1.setFixedSize(250, 40)
         username_password_layout.addWidget(self.password_line_edit_1, alignment=Qt.AlignmentFlag.AlignCenter)
@@ -66,9 +68,7 @@ class RegistryScreen(QWidget):
         # LineEdit "Confirm Password"
         self.password_line_edit_2 = QLineEdit()
         self.password_line_edit_2.setPlaceholderText("Confirm Password")
-        self.password_line_edit_2.setStyleSheet(
-            "background-color: darkgray; color: white; border-radius: 10px; "
-            "font-size: 16px; font-weight: bold; min-height: 40px;")
+        self.password_line_edit_2.setObjectName("lineedit_password_name")
         self.password_line_edit_2.setEchoMode(QLineEdit.EchoMode.Password)
         self.password_line_edit_2.setFixedSize(250, 40)
         username_password_layout.addWidget(self.password_line_edit_2, alignment=Qt.AlignmentFlag.AlignCenter)
@@ -80,15 +80,13 @@ class RegistryScreen(QWidget):
 
         # Button "Continue"
         self.button_continue = QPushButton("Continue")
-        self.button_continue.setStyleSheet(
-            "background-color: #E4E6EE; color: gray; border-radius: 10px; "
-            "font-size: 15px; font-weight: bold; min-height: 30px;")
+        self.button_continue.setObjectName("lineedit_password_name")
         self.button_continue.pressed.connect(lambda: self.button_continue.setStyleSheet(
-            "background-color: #D0D3DD; color: gray; border-radius: 10px; font-size: 15px; font-weight: bold; min-height: 30px;"
-        ))
+            "background-color: #D0D3DD; color: gray; border-radius: 10px; font-size: 16px; "
+            "font-weight: bold; min-height: 40px;"))
         self.button_continue.released.connect(lambda: self.button_continue.setStyleSheet(
-            "background-color: #E4E6EE; color: gray; border-radius: 10px; font-size: 15px; font-weight: bold; min-height: 30px;"
-        ))
+            "background-color: darkgray; color: white; border-radius: 10px; font-size: 16px; "
+            "font-weight: bold; min-height: 40px;"))
         self.button_continue.clicked.connect(self.control_data_source_user_and_create_acc)
         self.button_continue.setFixedSize(200, 40)
         self.vertical_layout.addWidget(self.button_continue, alignment=Qt.AlignmentFlag.AlignCenter)
@@ -110,19 +108,6 @@ class RegistryScreen(QWidget):
         self.button_already_account.clicked.connect(lambda: self.stacked_windows.setCurrentIndex(0))
         self.extra_buttons_layout.addWidget(self.button_already_account, alignment=Qt.AlignmentFlag.AlignLeft)
 
-        # Button "I forgot password"
-        self.button_forgot_password = QPushButton("I forgot password")
-        self.button_forgot_password.setStyleSheet(
-            "background-color: transparent; color: white; font-size: 12px;")
-        self.button_forgot_password.pressed.connect(lambda: self.button_forgot_password.setStyleSheet(
-            "background-color: transparent; color: gray; font-size: 12px;"
-        ))
-        self.button_forgot_password.released.connect(lambda: self.button_forgot_password.setStyleSheet(
-            "background-color: transparent; color: white; font-size: 12px;"
-        ))
-        # This option will in future than now is only this
-        self.button_forgot_password.clicked.connect(self.error_about_not_exist_option)
-        self.extra_buttons_layout.addWidget(self.button_forgot_password, alignment=Qt.AlignmentFlag.AlignRight)
 
         # Add buttons in main layout
         self.vertical_layout.addLayout(self.extra_buttons_layout)
@@ -133,30 +118,18 @@ class RegistryScreen(QWidget):
         main_layout.addStretch()
         self.setLayout(main_layout)
 
+    # Checking data from user if it is right, create table
     def control_data_source_user_and_create_acc(self):
         username = self.name_lineedit.text()
         password_1 = self.password_line_edit_1.text()
         password_2 = self.password_line_edit_2.text()
 
         if not datamanager.check_name(username):
-            self.show_error_message("Wrong Name!", "Try again to write your name.")
+            show_error_message("Wrong Name!", "Try again to write your name.")
         else:
             if not datamanager.check_password(password_1, password_2):
-                self.show_error_message("Wrong password!", "Try again to write your password.")
+                show_error_message("Wrong password!", "Try again to write your password.")
             else:
                 create_new_account(username, password_1)
                 self.main_window.setWindowTitle(f"SQL & PyQt > {username}")
                 self.stacked_windows.setCurrentIndex(2)
-
-    def error_about_not_exist_option(self):
-        self.show_error_message("Soon...", "This option don't work right now.")
-
-    # Function for error message
-    @staticmethod
-    def show_error_message(title, message):
-        msg = QMessageBox()
-        msg.setIcon(QMessageBox.Icon.Critical)
-        msg.setWindowTitle(title)
-        msg.setText(message)
-        msg.setStandardButtons(QMessageBox.StandardButton.Ok)
-        msg.exec()

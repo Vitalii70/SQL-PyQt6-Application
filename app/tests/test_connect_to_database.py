@@ -3,14 +3,13 @@ unittest for user_manager
 """
 
 import unittest
+from ..config import DB_PATH
 import os
 
-class TestConnectToDatabase(unittest.TestCase):
-    # TODO: Write here db to database to users
-    path_db = "C:\\reps\\SQL-PyQt6-Application\\app\\database_accounts\\data_users.db"
 
+class TestConnectToDatabase(unittest.TestCase):
     def test_exist(self):
-        self.assertTrue(os.path.exists(self.path_db))
+        self.assertTrue(os.path.exists(DB_PATH))
 
     def test_invalid(self):
         path_db_invalid = "C:\\fff"

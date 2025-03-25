@@ -1,20 +1,19 @@
-#mainTextLabel {
-    font-size: 44px;
-    font-weight: bold;
-    color: black;
+#back_front_container {
+    background-color: gray;
+    border-radius: 15px;
 }
 
-#button_continue {
-    background-color: gray;
+#label_main_text {
+    font-size: 35px;
+    font-weight: bold;
+    color: white;
+}
+
+#lineedit_password_name {
+    background-color: darkgray;
     color: white;
     border-radius: 10px;
-    font: bold 14px;
-    min-width: 10em;
-    padding: 6px;
-    transition: 0.3s;
-}
-
-#button_continue:pressed {
-    background-color: darkgray;
-    color: black;
+    font-size: 16px;
+    font-weight: bold;
+    min-height: 40px;
 }
