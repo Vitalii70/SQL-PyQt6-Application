@@ -22,13 +22,13 @@ class MenuFirstScreen(QWidget):
         self.main_layout = QVBoxLayout()
         self.buttons_layout = QGridLayout()
 
-        # Logo
+        # Logo for this program
         label_maintext = QLabel("SQL & PyQt")
         label_maintext.setAlignment(Qt.AlignmentFlag.AlignCenter)
         label_maintext.setStyleSheet("font-size: 44px; font-weight: bold;")
         self.main_layout.addWidget(label_maintext)
 
-        # buttons
+        # buttons in List to create in other funktion
         buttons = [
             ("Create Table", 0, 0, lambda: self.stacked_windows.setCurrentIndex(3)),
             ("Change Table", 0, 1, self.test_function_for_time),
@@ -43,6 +43,7 @@ class MenuFirstScreen(QWidget):
         self.main_layout.addLayout(self.buttons_layout)
         self.setLayout(self.main_layout)
 
+    # Create button
     def create_button(self, text, func):
         """Creating button"""
         btn = QPushButton(text)
@@ -50,5 +51,6 @@ class MenuFirstScreen(QWidget):
         btn.clicked.connect(func)
         return btn
 
+    # For some time, it will update in next Update
     def test_function_for_time(self):
         print("It is working.")
