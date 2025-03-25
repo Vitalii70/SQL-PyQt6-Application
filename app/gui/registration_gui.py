@@ -108,19 +108,6 @@ class RegistryScreen(QWidget):
         self.button_already_account.clicked.connect(lambda: self.stacked_windows.setCurrentIndex(0))
         self.extra_buttons_layout.addWidget(self.button_already_account, alignment=Qt.AlignmentFlag.AlignLeft)
 
-        # Button "I forgot password"
-        self.button_forgot_password = QPushButton("I forgot password")
-        self.button_forgot_password.setStyleSheet(
-            "background-color: transparent; color: white; font-size: 12px;")
-        self.button_forgot_password.pressed.connect(lambda: self.button_forgot_password.setStyleSheet(
-            "background-color: transparent; color: gray; font-size: 12px;"
-        ))
-        self.button_forgot_password.released.connect(lambda: self.button_forgot_password.setStyleSheet(
-            "background-color: transparent; color: white; font-size: 12px;"
-        ))
-        # This option will in future than now is only this
-        self.button_forgot_password.clicked.connect(self.error_about_not_exist_option)
-        self.extra_buttons_layout.addWidget(self.button_forgot_password, alignment=Qt.AlignmentFlag.AlignRight)
 
         # Add buttons in main layout
         self.vertical_layout.addLayout(self.extra_buttons_layout)
@@ -146,7 +133,3 @@ class RegistryScreen(QWidget):
                 create_new_account(username, password_1)
                 self.main_window.setWindowTitle(f"SQL & PyQt > {username}")
                 self.stacked_windows.setCurrentIndex(2)
-
-    # In next update
-    def error_about_not_exist_option(self):
-        show_error_message("Soon...", "This option don't work right now.")
