@@ -4,12 +4,12 @@ Module for creating tables in the database.
 This module provides functionality to create tables in the database based on user input or predefined schema.
 """
 
-# PyQt6
+# PyQt6 (all)
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
-                             QCheckBox, QLineEdit, QComboBox, QSpacerItem, QSizePolicy, QMessageBox)
+                             QCheckBox, QLineEdit, QComboBox, QSpacerItem, QSizePolicy)
 
-# Extra library
+# Extra library (Error_message and to create a table)
 from app.database_logic.database import create_table
 from ..config import show_error_message
 
@@ -19,6 +19,7 @@ class ScreenCreateTable(QWidget):
         super().__init__()
         self.stacked_windows = stacked_windows
 
+        # Information about columns
         self.columns_data = []
         self.column_count = 1
 
@@ -55,13 +56,14 @@ class ScreenCreateTable(QWidget):
 
         self.setLayout(self.main_layout)
 
+    # Ease funk to create buttons
     def create_button(self, text, func):
         button = QPushButton(text)
         button.setMinimumSize(125, 70)
         button.clicked.connect(func)
         return button
 
-
+    # Create table if all were right, with library from database
     def saving_table(self):
         name = self.table_name_input.text()
         if not name:
@@ -88,12 +90,15 @@ class ScreenCreateTable(QWidget):
 
         create_table(name, columns)
 
+    # Add column method
     def add_column(self):
         column_layout = self.create_column_widgets()
         self.columns_layout.addLayout(column_layout)
         self.column_count += 1
 
+    # Delete column method
     def delete_column(self):
+        # algorithm for correct removal of columns
         if self.column_count > 2:
             column_layout = self.columns_layout.itemAt(self.column_count - 2)
 
@@ -106,12 +111,14 @@ class ScreenCreateTable(QWidget):
                 self.columns_layout.removeItem(column_layout)
                 self.columns_data.pop()
                 self.column_count -= 1
+        # if error than funktion error_message
         else:
             show_error_message(
                 "Error deleting column.",
                 "Cannot delete the last column."
             )
 
+    # Method to create column
     def create_column_widgets(self):
         column_layout = QHBoxLayout()
 
