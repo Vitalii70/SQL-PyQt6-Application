@@ -9,7 +9,7 @@ Dependencies:
 """
 
 # PyQt6
-from PyQt6.QtWidgets import QMainWindow, QStackedWidget, QApplication
+from PyQt6.QtWidgets import QMainWindow, QStackedWidget, QApplication, QMessageBox
 from PyQt6.QtGui import QIcon
 
 # Other windows/screens
@@ -18,45 +18,66 @@ from app.gui.registration_gui import RegistryScreen
 from app.gui.menu_gui import MenuFirstScreen
 from app.gui.create_table_gui import ScreenCreateTable
 
-# Extra library
+# Extra libraries
 import sys
+import os
 from config import WINDOW_ICON
 
 
 class MainWindow(QMainWindow):
+    """Main window that manages navigation between screens using QStackedWidget."""
     def __init__(self):
         super(MainWindow, self).__init__()
         self.stacked_windows = QStackedWidget()
-
-        # Add widget in stacked widget
-        self.stacked_windows.addWidget(LoginScreen(self, self.stacked_windows))
-        self.stacked_windows.addWidget(RegistryScreen(self, self.stacked_windows))
-        self.stacked_windows.addWidget(MenuFirstScreen(self.stacked_windows))
-        self.stacked_windows.addWidget(ScreenCreateTable(self.stacked_windows))
+        self.register_screens()
 
         self.setWindowTitle("SQL & PyQt")
         self.setGeometry(100, 100, 800, 600)
-
-        self.stacked_windows.setCurrentIndex(0)
-
-        # Set widget how central widget
         self.setCentralWidget(self.stacked_windows)
 
+        # Set the first screen
+        self.stacked_windows.setCurrentIndex(0)
 
-# Function for error
+    def register_screens(self):
+        """Register all screens in QStackedWidget."""
+        screens = [
+            LoginScreen(self, self.stacked_windows),
+            RegistryScreen(self, self.stacked_windows),
+            MenuFirstScreen(self.stacked_windows),
+            ScreenCreateTable(self.stacked_windows),
+        ]
+
+        for screen in screens:
+            self.stacked_windows.addWidget(screen)
+
+
 def exception_hook(exc_type, exc_value, exc_traceback):
+    """Handle uncaught exceptions and show an error message."""
+    error_msg = f"An unexpected error occurred:\n{exc_value}"
+    print(error_msg)
+    QMessageBox.critical(None, "Application Error", error_msg)
+
     sys.__excepthook__(exc_type, exc_value, exc_traceback)
     sys.exit(1)
 
 
-# Startpoint and settings
-if __name__ == "__main__":
+def main():
+    """Main function to start the PyQt application."""
     sys.excepthook = exception_hook
 
     app = QApplication(sys.argv)
-    app.setWindowIcon(QIcon(WINDOW_ICON))
+
+    # Ensure the icon path is correct
+    icon_path = os.path.abspath(WINDOW_ICON)
+    if os.path.exists(icon_path):
+        app.setWindowIcon(QIcon(icon_path))
+    else:
+        print(f"Warning: Icon not found at {icon_path}")
 
     window = MainWindow()
     window.show()
-
     sys.exit(app.exec())
+
+
+if __name__ == "__main__":
+    main()
