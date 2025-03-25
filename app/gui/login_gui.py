@@ -7,7 +7,7 @@ This module provides the logic for user authentication, including input validati
 # PyQt6
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, \
-    QPushButton, QLabel, QLineEdit
+    QPushButton, QLabel, QLineEdit, QSpacerItem, QSizePolicy
 
 # Extra library (check if data right for database, QQS and error_message)
 from app.database_logic.database import control_data
@@ -17,72 +17,104 @@ from ..config import QQS_LOGIN_GUI, show_error_message
 class LoginScreen(QWidget):
     def __init__(self, main_window, stacked_windows):
         super().__init__()
-
-        # QSS for buttons etc.
-        with open(QQS_LOGIN_GUI, "r") as file:
-            qss = file.read()
-            self.setStyleSheet(qss)
-
         # Default settings
         self.main_window = main_window
         self.stacked_windows = stacked_windows
+
+
+        # main layout for screen
+        main_layout = QVBoxLayout(self)
+
         self.setWindowTitle("SQL & PyQt")
         self.setGeometry(100, 100, 800, 600)
 
-        # Main layout with other layouts
-        self.main_screen_layout = QVBoxLayout()
+        # Container for button etc.
+        self.container = QWidget(self)
+        self.container.setFixedSize(350, 450)
+        self.container.setStyleSheet("background-color: gray; border-radius: 15px;")
 
-        self.text_layout = QHBoxLayout()
-        self.button_1_layout = QVBoxLayout()
-        self.button_2_layout = QVBoxLayout()
-        self.button_3_layout = QVBoxLayout()
-        self.button_dont_acc_layout = QHBoxLayout()
+        # layout for things in container
+        self.vertical_layout = QVBoxLayout(self.container)
 
-        # Text Name of program
-        label_main_text = QLabel("SQL & PyQt")
+        # main text in this screen
+        label_main_text = QLabel("SQL & PyQt6")
         label_main_text.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        label_main_text.setObjectName("mainTextLabel")  # QSS
-        self.text_layout.addWidget(label_main_text, alignment=Qt.AlignmentFlag.AlignCenter)
+        label_main_text.setStyleSheet("font-size: 35px; font-weight: bold; color: white;")
+        self.vertical_layout.addWidget(label_main_text, alignment=Qt.AlignmentFlag.AlignCenter)
 
-        # lineedit for name
+        # Create a vertical layout for "Username", "Password", and "Confirm Password"
+        username_password_layout = QVBoxLayout()
+
+        # LineEdit "Username"
         self.name_lineedit = QLineEdit()
         self.name_lineedit.setPlaceholderText("Username")
+        self.name_lineedit.setStyleSheet(
+            "background-color: darkgray; color: white; border-radius: 10px; "
+            "font-size: 16px; font-weight: bold; min-height: 40px;")
         self.name_lineedit.setFixedSize(250, 40)
-        self.button_1_layout.addWidget(self.name_lineedit, alignment=Qt.AlignmentFlag.AlignCenter)
+        username_password_layout.addWidget(self.name_lineedit, alignment=Qt.AlignmentFlag.AlignCenter)
 
-        # lineedit for password
+        username_password_layout.addItem(QSpacerItem(20, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum))
+
+        # LineEdit "Password"
         self.password_lineedit = QLineEdit()
         self.password_lineedit.setPlaceholderText("Password")
-        # to hide the password when entering
+        self.password_lineedit.setStyleSheet(
+            "background-color: darkgray; color: white; border-radius: 10px; "
+            "font-size: 16px; font-weight: bold; min-height: 40px;")
         self.password_lineedit.setEchoMode(QLineEdit.EchoMode.Password)
         self.password_lineedit.setFixedSize(250, 40)
-        self.button_1_layout.addWidget(self.password_lineedit, alignment=Qt.AlignmentFlag.AlignCenter)
+        username_password_layout.addWidget(self.password_lineedit, alignment=Qt.AlignmentFlag.AlignCenter)
 
-        # for better arrangement
-        self.button_1_layout.setSpacing(0)
-        self.button_1_layout.setContentsMargins(0, 0, 0, 0)
+        # Add the username_password_layout into the vertical_layout
+        self.vertical_layout.addLayout(username_password_layout)
 
-        self.button_3 = QPushButton("Continue >")
-        self.button_3.setStyleSheet("button_continue")  # QSS
-        self.button_3.setAutoDefault(True)
-        self.button_3.setDefault(True)
-        self.button_3.setFixedSize(150, 50)
-        self.button_3.clicked.connect(self.login_continue)
-        self.button_3_layout.addWidget(self.button_3, alignment=Qt.AlignmentFlag.AlignCenter)
+        self.vertical_layout.addItem(QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum))
 
-        self.button_dont_acc = QPushButton("Create an account")
-        self.button_dont_acc.setMinimumSize(175, 75)
-        self.button_dont_acc.clicked.connect(lambda: self.stacked_windows.setCurrentIndex(1))
-        self.button_dont_acc_layout.addWidget(self.button_dont_acc, alignment=Qt.AlignmentFlag.AlignRight)
+        # Button "Continue"
+        self.button_continue = QPushButton("Continue")
+        self.button_continue.setStyleSheet(
+            "background-color: #E4E6EE; color: gray; border-radius: 10px; "
+            "font-size: 15px; font-weight: bold; min-height: 30px;")
+        self.button_continue.pressed.connect(lambda: self.button_continue.setStyleSheet(
+            "background-color: #D0D3DD; color: gray; border-radius: 10px; font-size: 15px; "
+            "font-weight: bold; min-height: 30px;"
+        ))
+        self.button_continue.released.connect(lambda: self.button_continue.setStyleSheet(
+            "background-color: #E4E6EE; color: gray; border-radius: 10px; font-size: 15px; "
+            "font-weight: bold; min-height: 30px;"
+        ))
+        self.button_continue.clicked.connect(self.login_continue)
+        self.button_continue.setFixedSize(200, 40)
+        self.vertical_layout.addWidget(self.button_continue, alignment=Qt.AlignmentFlag.AlignCenter)
 
-        # Putting it all together
-        self.main_screen_layout.addLayout(self.text_layout)
-        self.main_screen_layout.addLayout(self.button_1_layout)
-        self.main_screen_layout.addLayout(self.button_2_layout)
-        self.main_screen_layout.addLayout(self.button_3_layout)
-        self.main_screen_layout.addLayout(self.button_dont_acc_layout)
+        # Extra layout for other button
+        self.extra_buttons_layout = QHBoxLayout()
 
-        self.setLayout(self.main_screen_layout)
+        # Button "I have already an account"
+        self.button_already_account = QPushButton("Create an account")
+        self.button_already_account.setStyleSheet(
+            "background-color: transparent; color: white; font-size: 12px;")
+        self.button_already_account.pressed.connect(lambda: self.button_already_account.setStyleSheet(
+            "background-color: transparent; color: gray; font-size: 12px;"
+        ))
+        self.button_already_account.released.connect(lambda: self.button_already_account.setStyleSheet(
+            "background-color: transparent; color: white; font-size: 12px;"
+        ))
+        # If acc already exist than login_screen
+        self.button_already_account.clicked.connect(lambda: self.stacked_windows.setCurrentIndex(1))
+        self.extra_buttons_layout.addWidget(self.button_already_account, alignment=Qt.AlignmentFlag.AlignLeft)
+
+
+        # Add buttons in main layout
+        self.vertical_layout.addLayout(self.extra_buttons_layout)
+
+        # Settings for main layout
+        main_layout.addStretch()
+        main_layout.addWidget(self.container, alignment=Qt.AlignmentFlag.AlignCenter)
+        main_layout.addStretch()
+        self.setLayout(main_layout)
+
 
     # Open program if data from user is correct
     def login_continue(self):
