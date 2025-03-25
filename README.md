@@ -37,7 +37,7 @@
 My GitHub: https://github.com/Vitalii70
 
 ----
-###### Version: 1.0.8
-###### Last Update: 19.03.2025
+###### Version: 1.1.0
+###### Last Update: 25.03.2025
 ###### Update from: Vitalii70
  
