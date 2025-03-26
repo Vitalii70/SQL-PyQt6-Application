@@ -74,10 +74,10 @@ class LoginScreen(QWidget):
         # Button "Continue"
         self.button_continue = QPushButton("Continue")
         self.button_continue.setObjectName("lineedit_password_name")
-        self.button_continue.pressed.connect(lambda: self.button_continue.setObjectName(
+        self.button_continue.pressed.connect(lambda: self.button_continue.setStyleSheet(
             "background-color: #D0D3DD; color: gray; border-radius: 10px; font-size: 16px; "
             "font-weight: bold; min-height: 40px;"))
-        self.button_continue.released.connect(lambda: self.button_continue.setObjectName(
+        self.button_continue.released.connect(lambda: self.button_continue.setStyleSheet(
             "background-color: darkgray; color: white; border-radius: 10px; font-size: 16px; "
             "font-weight: bold; min-height: 40px;"))
         self.button_continue.clicked.connect(self.login_continue)
